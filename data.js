@@ -427,7 +427,7 @@ const portfolioData = {
             role: "Research Analyst Intern",
             company: "Shree Financial Services",
             code: "RES-101", // Optional field if needed
-            date: "May 2022 - Julu 2023",
+            date: "May 2022 - July 2023",
             description: [
                 "Conducted comprehensive fundamental and quantitative analysis on 30+ publicly listed companies, utilizing statistical frameworks like CAPM to evaluate cost of capital and risk-adjusted return potential",
                 "Applied advanced econometric time-series analysis to model financial market trends, directly supporting the senior investment team in formulating thesis-driven long/short equity strategies",
@@ -466,7 +466,7 @@ const portfolioData = {
             degree: "Master of Science in Finance (STEM Designated)",
             institution: "University of Illinois at Urbana-Champaign",
             logo: "assets/UIUC_Logo.png", // Path to logo in assets
-            date: "Dec 2025",
+            date: "December 2025",
             details: [
                 "<b>Major:</b> Financial Mathematics",
                 "<b>GPA:</b> 4.0/4.0",

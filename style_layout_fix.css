@@ -1,0 +1,86 @@
+/* RESTORE GRID LAYOUT FIRST (Critical Layout Fix) */
+/* This ensures the cards sit side-by-side (2 per row) */
+#education-grid,
+#experience-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !important;
+    /* Reverted to 300px to GUARANTEE 2 per row */
+    gap: 1.5rem !important;
+    width: 100% !important;
+    align-items: stretch !important;
+    /* Equal height cards */
+}
+
+/* REVERT CARD STYLING TO ORIGINAL (Logo on Top) */
+.timeline-item {
+    height: 100% !important;
+    padding: 1.5rem !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    /* Stack Logo on Top of Text */
+    align-items: flex-start !important;
+    /* Left Align Everything */
+    gap: 1rem !important;
+}
+
+/* --- EDUCATION IMAGES (180px Square) --- */
+#education-grid .edu-logo-wrapper {
+    width: 180px !important;
+    /* User requested 180px */
+    height: 180px !important;
+    /* Square */
+    flex: 0 0 auto !important;
+    margin-bottom: 0.5rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: white !important;
+    /* Ensure square shape is visible if transparent */
+    border-radius: 12px !important;
+    /* Slight rounding looks better */
+    border: 1px solid #e2e8f0 !important;
+    padding: 10px !important;
+    /* Inner padding for logo */
+}
+
+/* --- EXPERIENCE IMAGES (Standard Square) --- */
+#experience-grid .edu-logo-wrapper {
+    width: 80px !important;
+    /* User said size was perfect */
+    height: 80px !important;
+    /* Make it square */
+    flex: 0 0 auto !important;
+    margin-bottom: 0.5rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: white !important;
+    border-radius: 12px !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+/* Ensure Inner Image Fits Perfectly */
+.edu-logo {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    /* Keep aspect ratio inside square */
+    object-position: center !important;
+}
+
+/* Allow Text to Expand Fully */
+.edu-content {
+    width: 100% !important;
+    flex: 1 !important;
+}
+
+/* Mobile Fallback */
+@media (max-width: 900px) {
+
+    #education-grid,
+    #experience-grid {
+        grid-template-columns: 1fr !important;
+        /* Stack vertically on phones */
+    }
+}
