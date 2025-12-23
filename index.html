@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo" id="nav-name" style="display: flex; align-items: center; gap: 15px;">
+                <div
+                    style="width: 40px; height: 40px; min-width: 40px; display: flex; align-items: center; justify-content: center;">
+                    <svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"
+                        style="width: 100%; height: 100%; display: block;">
+                        <polygon points="50,10 50,90 10,80" fill="#064e3b" />
+                        <polygon points="50,10 90,80 50,90" fill="#10b981" />
+                    </svg>
+                </div>
+                <span id="nav-text">Sharang Mantri</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#certifications">Certifications</a></li>
+                <li><a href="#leadership">Leadership</a></li>
+                <li><a href="#skills">Skills</a></li>
+
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content fade-in">
+            <div class="profile-img-container">
+                <img src="" alt="Profile" class="profile-img" id="hero-img">
+            </div>
+            <h1 id="hero-name">Name</h1>
+            <p id="hero-role">Role</p>
+
+            <div id="intro-video-btn-container">
+                <!-- Video button injected here if exists -->
+            </div>
+
+            <!-- Resumes & Socials Moved Here -->
+            <div class="hero-actions">
+                <div class="resumes" id="resume-section">
+                    <!-- Resumes injected here -->
+                </div>
+                <div class="social-grid" id="social-grid">
+                    <!-- Social Icons injected here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <h2 class="section-title fade-in">About Me</h2>
+            <div class="about-content fade-in">
+                <p class="bio-text" id="about-text">
+                    <!-- Injected via JS -->
+                </p>
+            </div>
+        </div>
+    </section>
+
+    </section>
+
+    <!-- Education Section -->
+    <section class="education" id="education">
+        <div class="container">
+            <h2 class="section-title fade-in">Education</h2>
+            <div class="timeline" id="education-grid">
+                <!-- Education items injected here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Socials Section Removed (Merged into Hero) -->
+
+    <!-- Portfolio Projects -->
+    <section class="portfolio" id="portfolio">
+        <div class="container">
+            <h2 class="section-title fade-in">Projects</h2>
+
+            <!-- Dynamic Filters -->
+            <div class="filters fade-in" id="project-filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <!-- Other filters injected here -->
+            </div>
+
+            <!-- Project Grid -->
+            <div class="project-grid" id="project-grid">
+                <!-- Project Cards injected here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Work Experience Section -->
+    <section class="experience" id="experience">
+        <div class="container">
+            <h2 class="section-title fade-in">Work Experience</h2>
+            <div class="timeline" id="experience-grid">
+                <!-- Experience items injected here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications Section -->
+    <section class="certifications" id="certifications">
+        <div class="container">
+            <h2 class="section-title fade-in">Certifications & Awards</h2>
+            <div class="cert-grid" id="cert-grid">
+                <!-- Cert Cards injected here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Leadership Section -->
+    <section class="leadership" id="leadership">
+        <div class="container">
+            <h2 class="section-title fade-in">Leadership & Experience</h2>
+            <div class="leadership-grid" id="leadership-grid">
+                <!-- Leadership items injected here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills" id="skills">
+        <div class="container">
+            <h2 class="section-title fade-in">Skills</h2>
+            <div class="skills-wrapper fade-in" id="skills-grid">
+                <!-- Skills tags injected here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; <span id="year">2025</span> <span id="footer-name">Your Name</span>. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fa-solid fa-arrow-up"></i>
+    </div>
+
+    <!-- Project Details Modal -->
+    <div class="modal" id="project-modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-modal">&times;</span>
+            <h2 class="project-title" id="modal-title">Project Title</h2>
+            <div class="project-img-container">
+                <img src="" id="modal-img" style="width:100%; border-radius:12px; margin-bottom:1rem; display:none;">
+            </div>
+            <div class="project-tags" id="modal-tags"></div>
+            <div class="about-text" id="modal-desc">
+                <!-- Star Desc -->
+            </div>
+
+            <h3 style="margin-top:2rem; margin-bottom:1rem; font-size:1.2rem;">Detailed Assets & Files</h3>
+            <div class="file-list" id="modal-files">
+                <!-- Files injected here -->
+            </div>
+
+            <div class="resume-options" id="modal-links" style="margin-top:2rem; justify-content:flex-start;">
+                <!-- External links -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Load Data first, then Logic -->
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

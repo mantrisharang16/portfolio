@@ -1,0 +1,11 @@
+<svg width="40" height="40" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- 3D Pyramid: Two Shades of Dark Green -->
+  
+  <!-- Left Face (Darker) -->
+  <polygon points="50,10 50,90 10,80" fill="#064e3b" />
+  
+  <!-- Right Face (Lighter but still dark) -->
+  <polygon points="50,10 90,80 50,90" fill="#10b981" />
+  
+  <!-- Optional: Ground shadow implies 3D -->
+</svg>

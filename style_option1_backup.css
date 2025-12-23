@@ -1,0 +1,1772 @@
+/* Premium Portfolio Design System */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --bg-color: #0f172a;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --accent-color: #38bdf8;
+    --accent-glow: rgba(56, 189, 248, 0.3);
+    --card-bg: rgba(30, 41, 59, 0.7);
+    --card-border: rgba(148, 163, 184, 0.1);
+    --glass-shiny: rgba(255, 255, 255, 0.05);
+
+    --transition-fast: 0.2s ease;
+    --transition-medium: 0.4s ease;
+}
+
+/* Base Reset & Typography */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Scrolling */
+html {
+    scroll-behavior: smooth;
+    padding-top: 80px;
+    /* Offset for fixed navbar */
+}
+
+/* Utility Classes */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 3rem;
+    text-align: center;
+    background: linear-gradient(to right, #fff, #94a3b8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    opacity: 0;
+    /* Animated in */
+    transform: translateY(20px);
+}
+
+.btn-primary {
+    background: var(--accent-color);
+    color: #0f172a;
+    padding: 0.8rem 1.5rem;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition-medium);
+    border: 2px solid var(--accent-color);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background: transparent;
+    color: var(--accent-color);
+    box-shadow: 0 0 15px var(--accent-glow);
+}
+
+/* Navbar */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 1rem 0;
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(12px);
+    z-index: 1000;
+    border-bottom: 1px solid var(--card-border);
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-decoration: none;
+    letter-spacing: -1px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    align-items: center;
+}
+
+.nav-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition-fast);
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--accent-color);
+}
+
+/* Distinct Navbar Button */
+.nav-links .nav-btn {
+    background: rgba(56, 189, 248, 0.1);
+    color: var(--accent-color);
+    padding: 0.5rem 1.2rem;
+    border-radius: 50px;
+    border: 1px solid var(--accent-color);
+}
+
+.nav-links .nav-btn:hover {
+    background: var(--accent-color);
+    color: #0f172a;
+    box-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* Hero Section */
+.hero {
+    min-height: 90vh;
+    /* Reduced slightly to fit content better */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Background Gradients */
+.hero::before {
+    content: '';
+    position: absolute;
+    top: -100px;
+    left: -100px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+    opacity: 0.6;
+    z-index: -1;
+}
+
+.hero-content {
+    text-align: center;
+    max-width: 800px;
+    padding-bottom: 3rem;
+}
+
+.profile-img-container {
+    width: 250px;
+    height: 250px;
+    margin: 0 auto 2rem;
+    border-radius: 50%;
+    padding: 5px;
+    background: linear-gradient(45deg, var(--accent-color), transparent);
+    animation: spin-glow 10s linear infinite;
+}
+
+.profile-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid var(--bg-color);
+}
+
+.hero h1 {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    line-height: 1.1;
+}
+
+.hero p {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+/* Hero Actions (Resumes + Socials) */
+.hero-actions {
+    margin-top: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.resumes {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.social-grid {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.social-icon {
+    font-size: 2rem;
+    color: var(--text-secondary);
+    transition: 0.3s;
+}
+
+.social-icon:hover {
+    color: var(--accent-color);
+    transform: translateY(-3px) scale(1.1);
+}
+
+/* Specific Social Colors */
+.social-icon[title="Gmail"]:hover,
+.social-icon[title="Gmail"] .fa-google {
+    color: #EA4335;
+}
+
+.social-icon[title="Outlook"]:hover,
+.social-icon[title="Outlook"] .fa-microsoft {
+    color: #0078D4;
+}
+
+.social-icon[title="LinkedIn"]:hover {
+    color: #0077B5;
+}
+
+
+/* Intro Video Mini-Modal (Hidden by default) */
+.intro-video-wrapper {
+    margin-bottom: 2rem;
+    display: none;
+    /* Toggled if video exists */
+}
+
+/* About Section */
+.about {
+    padding: 6rem 0;
+    background: #0b1120;
+}
+
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.bio-text {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+}
+
+/* Certifications / Awards / Bio Gallery */
+/* Certifications / Awards / Bio Gallery */
+.certifications {
+    padding: 6rem 0;
+    background: #0b1120;
+    /* Dark Alt */
+}
+
+.cert-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+/* ... cert cards ... */
+
+/* Leadership Section */
+.leadership {
+    padding: 6rem 0;
+    /* Default Background */
+}
+
+.leadership-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+/* ... leadership cards ... */
+
+/* Skills Section */
+.skills {
+    padding: 6rem 0;
+    text-align: center;
+    background: #0b1120;
+    /* Dark Alt */
+}
+
+.cert-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    overflow: hidden;
+    transition: var(--transition-medium);
+}
+
+.cert-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent-color);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+.cert-img {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    background: rgba(15, 23, 42, 0.5);
+    /* Dark background for transparent/smaller images */
+}
+
+.cert-info {
+    padding: 1.5rem;
+}
+
+.cert-title {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.cert-issuer {
+    color: var(--accent-color);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+/* Projects Section */
+.portfolio {
+    padding: 6rem 0;
+    background: #0b1120;
+}
+
+.filters {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 0.6rem 1.5rem;
+    border-radius: 50px;
+    border: 1px solid var(--card-border);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: var(--transition-fast);
+    font-family: inherit;
+    font-weight: 500;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+    background: var(--accent-color);
+    color: #0f172a;
+    border-color: var(--accent-color);
+}
+
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2.5rem;
+}
+
+.project-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 24px;
+    padding: 1.5rem;
+    transition: var(--transition-medium);
+    position: relative;
+    overflow: hidden;
+}
+
+.project-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.6);
+    border-color: rgba(56, 189, 248, 0.4);
+}
+
+.project-img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 16px;
+    margin-bottom: 1.5rem;
+}
+
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.tag {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.8rem;
+    background: rgba(56, 189, 248, 0.1);
+    color: var(--accent-color);
+    border-radius: 20px;
+}
+
+.project-title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.project-desc-short {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Modal for Project Details */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.95);
+    z-index: 2000;
+    overflow-y: auto;
+    padding: 2rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal.open {
+    display: block;
+    opacity: 1;
+}
+
+.modal-content {
+    max-width: 800px;
+    margin: 4rem auto;
+    background: #1e293b;
+    border-radius: 24px;
+    padding: 3rem;
+    position: relative;
+    border: 1px solid var(--card-border);
+}
+
+.close-modal {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    color: var(--text-secondary);
+    font-size: 2rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.close-modal:hover {
+    color: white;
+}
+
+/* File list in Project */
+.file-list {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.file-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 1rem;
+    background: rgba(148, 163, 184, 0.05);
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: 0.2s;
+}
+
+.file-item:hover {
+    background: rgba(56, 189, 248, 0.1);
+}
+
+.file-icon {
+    font-size: 1.5rem;
+    color: var(--accent-color);
+}
+
+/* Footer */
+footer {
+    padding: 2rem 0;
+    text-align: center;
+    color: var(--text-secondary);
+    border-top: 1px solid var(--card-border);
+}
+
+/* Back to Top */
+.back-to-top {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--accent-color);
+    color: #0f172a;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.3s;
+    box-shadow: 0 10px 20px rgba(56, 189, 248, 0.3);
+}
+
+.back-to-top.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Animations */
+@keyframes spin-glow {
+    0% {
+        background: linear-gradient(0deg, var(--accent-color), transparent);
+    }
+
+    100% {
+        background: linear-gradient(360deg, var(--accent-color), transparent);
+    }
+}
+
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    /* Mobile Menu could be added */
+}
+
+/* Education Grid Layout (Side-by-Side) */
+.education {
+    padding: 6rem 0;
+}
+
+/* Work Experience */
+.experience {
+    padding: 6rem 0;
+    /* Default background to contrast with Projects */
+}
+
+.timeline {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 2rem;
+}
+
+/* ... (Timeline Items) ... */
+
+/* Certifications Section */
+.certifications {
+    padding: 6rem 0;
+    background: #0b1120;
+    /* Alternating Dark */
+}
+
+/* ... (Cert Styles) ... */
+
+/* Leadership Section */
+.leadership {
+    padding: 6rem 0;
+    /* Default Background */
+}
+
+/* ... (Leadership Styles) ... */
+
+/* Skills Section */
+.skills {
+    padding: 6rem 0;
+    text-align: center;
+    background: #0b1120;
+    /* Alternating Dark */
+}
+
+.timeline-item {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: flex-start;
+    transition: var(--transition-medium);
+    height: 100%;
+}
+
+.timeline-item:hover {
+    border-color: var(--accent-color);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+}
+
+.edu-logo-wrapper {
+    width: 120px;
+    height: 120px;
+    background: white;
+    border-radius: 12px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-start;
+}
+
+.edu-logo {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.edu-content {
+    flex-grow: 1;
+    width: 100%;
+}
+
+.edu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.edu-degree {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.edu-date {
+    color: var(--accent-color);
+    font-weight: 600;
+    font-size: 0.9rem;
+    background: rgba(56, 189, 248, 0.1);
+    padding: 0.2rem 0.8rem;
+    border-radius: 50px;
+}
+
+.edu-school {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.edu-details {
+    list-style-position: inside;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.edu-details li {
+    margin-bottom: 0.5rem;
+}
+
+/* Leadership Section */
+.leadership {
+    padding: 6rem 0;
+    background: #0b1120;
+}
+
+.leadership-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+.leadership-card {
+    background: linear-gradient(145deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9));
+    border: 1px solid var(--card-border);
+    border-radius: 20px;
+    padding: 2rem;
+    transition: var(--transition-medium);
+    position: relative;
+    overflow: hidden;
+}
+
+.leadership-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--accent-color);
+    opacity: 0.5;
+}
+
+.leadership-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(56, 189, 248, 0.1);
+}
+
+.lead-title {
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
+}
+
+.lead-role {
+    font-size: 0.95rem;
+    color: var(--accent-color);
+    font-weight: 500;
+}
+
+.lead-date {
+    color: var(--text-secondary);
+    font-weight: 400;
+}
+
+/* Skills Section */
+.skills {
+    padding: 6rem 0;
+    text-align: center;
+}
+
+.skills-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.skill-tag {
+    font-size: 1rem;
+    padding: 0.6rem 1.2rem;
+    background: rgba(30, 41, 59, 0.6);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    color: var(--text-secondary);
+    transition: 0.2s;
+    cursor: default;
+}
+
+.skill-tag:hover {
+    background: rgba(56, 189, 248, 0.1);
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+    transform: scale(1.05);
+}
+
+/* Multi-Image Certification Row */
+.cert-img-row {
+    display: flex;
+    overflow-x: auto;
+    /* Allow horizontal scrolling if many images */
+    background: rgba(15, 23, 42, 0.5);
+    padding: 10px;
+    gap: 10px;
+    height: 200px;
+    align-items: center;
+}
+
+.cert-multi {
+    height: 100%;
+    width: auto;
+    /* Let width adjust to maintain aspect ratio */
+    max-width: 90%;
+    /* Prevent one image taking over */
+    object-fit: contain;
+    flex-shrink: 0;
+    /* Prevent squishing */
+    border-radius: 8px;
+    border: 1px solid var(--card-border);
+}
+
+/* Scrollbar for image row */
+.cert-img-row::-webkit-scrollbar {
+    height: 6px;
+}
+
+.cert-img-row::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 10px;
+}/* --- Visual Enhancements --- */
+
+/* 1. Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #334155;
+    /* Slate 700 */
+    border-radius: 5px;
+    border: 2px solid var(--bg-color);
+    /* Padding effect */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-color);
+}
+
+/* 2. Scroll Progress Bar */
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 4px;
+    /* Slightly thicker for visibility */
+    background: var(--accent-color);
+    width: 0%;
+    /* JS will update this */
+    z-index: 9999;
+    /* Above navbar */
+    transition: width 0.1s;
+    box-shadow: 0 0 15px var(--accent-color);
+}
+
+/* 3. Glowing Profile Pulse (replaces spin-glow if applied) */
+.profile-pulse {
+    animation: glow-pulse 3s infinite ease-in-out !important;
+}
+
+@keyframes glow-pulse {
+    0% {
+        box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+        border-color: var(--bg-color);
+    }
+
+    50% {
+        box-shadow: 0 0 50px rgba(56, 189, 248, 0.6);
+        border-color: var(--accent-color);
+    }
+
+    100% {
+        box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+        border-color: var(--bg-color);
+    }
+}
+
+/* 4. Active Navigation State */
+.nav-links a.active-section {
+    color: var(--accent-color);
+    text-shadow: 0 0 10px var(--accent-glow);
+}
+
+.nav-links a.active-section::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: var(--accent-color);
+    margin-top: 2px;
+    box-shadow: 0 0 10px var(--accent-color);
+    animation: expand-width 0.3s ease;
+}
+
+@keyframes expand-width {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
+}/* Project Date Styling */
+.project-date {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    opacity: 0.8;
+}/* Improved File Styling */
+#modal-files {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.file-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+.file-item:hover {
+    background: rgba(56, 189, 248, 0.1);
+    /* light blue tint */
+    border-color: var(--accent-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.file-icon {
+    font-size: 1.5rem;
+    color: var(--accent-color);
+}
+
+.file-item span {
+    font-size: 0.9rem;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}/* Increase Project Title Size */
+.project-info h3 {
+    font-size: 1.5rem !important;
+    /* Was likely 1.25rem or smaller */
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+}/* 
+   THEME OVERHAUL: SKY BLUE & GREEN (CYAN/TEAL)
+   ============================================
+*/
+
+:root {
+    /* Main Background: Deep Cyan/Teal (Mix of Blue & Green) */
+    --bg-color: #0f292d;
+
+    /* Alternating Section Background: Darker/Richer Teal */
+    --bg-alt: #081a1d;
+
+    /* Text */
+    --text-primary: #ecfeff;
+    /* Cyan tint white */
+    --text-secondary: #a5f3fc;
+    /* Cyan tint grey */
+
+    /* Accent: Electric Cyan (Perfect mix of Sky Blue + Green cues) */
+    --accent-color: #22d3ee;
+    --accent-glow: rgba(34, 211, 238, 0.4);
+
+    /* Card System */
+    --card-bg: rgba(22, 78, 99, 0.4);
+    /* Cyan-900 tint */
+    --card-border: rgba(34, 211, 238, 0.2);
+    --glass-shiny: rgba(34, 211, 238, 0.05);
+}
+
+/* Override Body Background */
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+}
+
+/* Update Alternating Sections (Portfolio, Certs, Skills) to new Dark Teal */
+.portfolio,
+.certifications,
+.skills {
+    background: var(--bg-alt) !important;
+}
+
+/* Update Scrollbar to match Teal/Cyan */
+::-webkit-scrollbar-thumb {
+    background: #155e75;
+    /* Cyan 800 */
+    border-color: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-color);
+}
+
+/* Update Scroll Progress Bar */
+.scroll-progress {
+    background: var(--accent-color);
+    box-shadow: 0 0 15px var(--accent-color);
+}/* 
+   THEME V2: DISTINCTIVE SKY BLUE & FOREST GREEN
+   =============================================
+*/
+
+:root {
+    /* Main Background: Very Dark Green/Forest (Distinctly NOT Blue) */
+    --bg-color: #022c22;
+    /* Emerald 950 */
+
+    /* Alternating Section: Darker Jungle Green */
+    --bg-alt: #064e3b;
+    /* Emerald 900 */
+
+    /* Text */
+    --text-primary: #f0fdf4;
+    /* Pale Mint White */
+    --text-secondary: #6ee7b7;
+    /* Soft Green Grey */
+
+    /* Accent: Bright Sky Blue (Pop against the green) */
+    --accent-color: #38bdf8;
+    /* Sky 400 */
+    --accent-glow: rgba(56, 189, 248, 0.5);
+
+    /* Secondary Accent (for variety): Lime/Spring Green */
+    --secondary-accent: #4ade80;
+
+    /* Card System */
+    --card-bg: rgba(6, 78, 59, 0.4);
+    /* Forest Green Tint */
+    --card-border: rgba(56, 189, 248, 0.3);
+    /* Sky Blue Border */
+    --glass-shiny: rgba(255, 255, 255, 0.05);
+}
+
+/* Force overrides */
+body {
+    background-color: var(--bg-color);
+    background-image: radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.05) 0%, transparent 20%);
+}
+
+.portfolio,
+.certifications,
+.skills {
+    background: var(--bg-alt) !important;
+}
+
+/* Buttons: Gradient from Sky Blue to Green */
+.btn-primary {
+    background: linear-gradient(135deg, var(--accent-color), var(--secondary-accent));
+    border: none;
+    color: #022c22;
+    /* Dark text for contrast */
+    font-weight: 700;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px var(--accent-glow);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar-thumb {
+    background: #047857;
+    /* Emerald 700 */
+    border-color: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-color);
+}
+
+/* Nav Link Hover */
+.nav-links a:hover,
+.nav-links a.active-section {
+    color: var(--accent-color);
+}/* 
+   THEME V3: VISIBLE CYAN/GREEN GRADIENT OVERHAUL
+   ==============================================
+   Forces overrides on Navbar and specific sections.
+*/
+
+:root {
+    /* 1. Base Variables: Deep Green/Cyan (No Navy) */
+    --bg-color: #0d2e2e;
+    /* Deep Cyan/Teal */
+    --bg-gradient: linear-gradient(135deg, #0e3a3a 0%, #064e3b 100%);
+    /* Cyan to Forest */
+
+    /* 2. Text */
+    --text-primary: #ecfeff;
+    /* Cyan White */
+    --text-secondary: #99f6e4;
+    /* Teal Tint */
+
+    /* 3. Accents */
+    --accent-color: #22d3ee;
+    /* Electric Cyan */
+    --accent-glow: rgba(34, 211, 238, 0.6);
+    --secondary-accent: #34d399;
+    /* Emerald Green */
+
+    /* 4. Cards */
+    --card-bg: rgba(6, 78, 59, 0.5);
+    /* Forest Green Glass */
+    --card-border: rgba(52, 211, 153, 0.3);
+    /* Emerald Border */
+}
+
+/* --- FORCEFUL OVERRIDES --- */
+
+/* Body: Apply the Gradient */
+body {
+    background: var(--bg-gradient) !important;
+    background-attachment: fixed !important;
+    /* Covers whole page */
+    background-size: cover !important;
+}
+
+/* Navbar: Remove Blue, Make it Green Glass */
+.navbar {
+    background: rgba(6, 78, 59, 0.85) !important;
+    /* Forest Green Glass */
+    border-bottom: 1px solid var(--card-border) !important;
+}
+
+/* Sections: Make them transparent to show the body gradient, or matching green */
+.portfolio,
+.certifications,
+.skills,
+.hero,
+.education,
+.experience,
+footer {
+    background: transparent !important;
+    /* Let the Gradient Shine Through */
+}
+
+/* Alternating Backgrounds (Optional: Make slightly darker green) */
+.portfolio,
+.skills {
+    background: rgba(2, 44, 34, 0.6) !important;
+}
+
+/* Buttons */
+.btn-primary {
+    background: linear-gradient(to right, #22d3ee, #34d399) !important;
+    color: #022c22 !important;
+}
+
+/* Text Selection Color */
+::selection {
+    background: var(--accent-color);
+    color: black;
+}/* 
+   THEME V4: FIXING "ABOUT ME" & "HERO" VISIBILITY
+   ===============================================
+   Ensures ALL sections are transparent so the Green/Blue gradient shows.
+*/
+
+/* 1. Force Body Gradient (The Source of Truth) */
+body {
+    background: linear-gradient(135deg, #0e3a3a 0%, #064e3b 100%) !important;
+    background-attachment: fixed !important;
+}
+
+/* 2. MAKE ALL SECTIONS TRANSPARENT (Crucial!) */
+/* This removes any hidden "Dark Blue" backgrounds on specific sections */
+section,
+.hero,
+.about,
+.portfolio,
+.education,
+.experience,
+.certifications,
+.leadership,
+.skills,
+footer {
+    background: transparent !important;
+    background-color: transparent !important;
+}
+
+/* 3. Navbar: Deep Green Glass */
+.navbar {
+    background: rgba(6, 78, 59, 0.85) !important;
+    /* Forest Green */
+    border-bottom: 1px solid rgba(52, 211, 153, 0.3) !important;
+}
+
+/* 4. Text & Accents */
+h1,
+h2,
+h3 {
+    color: #ecfeff !important;
+    /* Cyan White */
+}
+
+/* About Me & Hero Text */
+.bio-text,
+.hero p {
+    color: #ccfbf1 !important;
+    /* Minty White */
+}
+
+/* Buttons */
+.btn-primary {
+    background: linear-gradient(to right, #22d3ee, #34d399) !important;
+    color: #022c22 !important;
+}/* 
+   THEME V5: LIGHT SKY BLUE & MINT GREEN (NO DARK MODE)
+   ====================================================
+   User Request: "No black, grey, dark blue. Only Sky Blue or Green."
+   This forces a LIGHT THEME structure.
+*/
+
+:root {
+    /* Main Background: Gradient from Light Sky Blue to Mint Green */
+    --bg-color: #bae6fd;
+    --bg-gradient: linear-gradient(135deg, #e0f2fe 0%, #dcfce7 100%);
+
+    /* Text: MUST BE DARK to be readable on light background */
+    --text-primary: #0f172a;
+    /* Slate 900 */
+    --text-secondary: #334155;
+    /* Slate 700 */
+
+    /* Accents: Stronger Cyan/Green for contrast */
+    --accent-color: #0284c7;
+    /* Sky 600 (Darker for readability) */
+    --accent-glow: rgba(14, 165, 233, 0.3);
+
+    /* Cards: White Glass instead of Dark Glass */
+    --card-bg: rgba(255, 255, 255, 0.6);
+    --card-border: rgba(255, 255, 255, 0.8);
+    --glass-shiny: rgba(255, 255, 255, 0.4);
+}
+
+/* 1. FORCE LIGHT GRADIENT BACKGROUND */
+body {
+    background: var(--bg-gradient) !important;
+    background-attachment: fixed !important;
+    color: var(--text-primary) !important;
+}
+
+/* 2. MAKE ALL SECTIONS TRANSPARENT */
+section,
+.hero,
+.about,
+.portfolio,
+.education,
+.experience,
+.certifications,
+.leadership,
+.skills,
+footer {
+    background: transparent !important;
+}
+
+/* 3. NAVBAR Override (White Glass) */
+.navbar {
+    background: rgba(255, 255, 255, 0.8) !important;
+    border-bottom: 1px solid white !important;
+}
+
+.logo,
+.nav-links a {
+    color: #0f172a !important;
+    /* Dark Text */
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: #0284c7 !important;
+    /* Sky Blue text */
+}
+
+/* 4. CARDS (Project, Leadership, Timeline) - White Cards */
+.project-card,
+.leadership-card,
+.timeline-item,
+.skill-tag,
+.modal-content {
+    background: rgba(255, 255, 255, 0.7) !important;
+    border: 1px solid white !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05) !important;
+    color: #0f172a !important;
+}
+
+/* 5. TEXT OVERRIDES (Force Dark Text on everything) */
+h1,
+h2,
+h3,
+h4,
+p,
+span,
+li {
+    color: #0f172a;
+}
+
+.project-desc-short,
+.edu-school,
+.lead-date {
+    color: #475569 !important;
+}
+
+/* 6. BUTTONS */
+.btn-primary {
+    background: linear-gradient(to right, #38bdf8, #4ade80) !important;
+    color: #0f172a !important;
+    font-weight: 700;
+}
+
+/* 7. Leadership Card Specific Fix */
+.leadership-card::before {
+    background: #0ea5e9 !important;
+    /* Sky Blue Strip */
+}
+
+/* Fix Modal Overlay to be light */
+.modal {
+    background: rgba(240, 249, 255, 0.95) !important;
+}/* 
+   THEME V5 FIX: TEXT VISIBILITY
+   =============================
+   Forces all text elements to be dark for contrast against the Light Sky Blue background.
+*/
+
+/* 1. Global Text Force */
+div,
+p,
+span,
+li,
+a,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #0f172a;
+    /* Dark Slate 900 (Almost Black) */
+}
+
+/* 2. Specific Overrides for grey text (make it darker grey) */
+.project-desc-short,
+.edu-school,
+.lead-date,
+.lead-role,
+.text-secondary {
+    color: #334155 !important;
+    /* Slate 700 */
+}
+
+/* 3. Navbar Links */
+.nav-links a {
+    color: #1e293b !important;
+    /* Slate 800 */
+    font-weight: 600;
+}
+
+.nav-links a:hover,
+.nav-links a.active-section {
+    color: #0284c7 !important;
+    /* Sky Blue 600 */
+}
+
+/* 4. Tags & Chips */
+.tag,
+.skill-tag,
+.edu-date {
+    background: rgba(255, 255, 255, 0.8) !important;
+    border: 1px solid #0ea5e9 !important;
+    /* Sky Blue Border */
+    color: #0369a1 !important;
+    /* Sky 700 Text */
+    font-weight: 600;
+}
+
+/* 5. Icons */
+i,
+.fa-solid,
+.fa-brands,
+.fa-regular {
+    color: #0284c7;
+    /* Sky 600 */
+}
+
+/* 6. Hero Name & Role */
+#hero-name {
+    color: #0f172a !important;
+    text-shadow: none !important;
+    /* Remove any white glow */
+}
+
+#hero-role {
+    color: #334155 !important;
+}
+
+/* 7. Footer */
+footer {
+    color: #475569 !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* 8. Modal Text */
+.modal-content,
+.modal-content h2,
+.modal-content p,
+.modal-content li {
+    color: #0f172a !important;
+}
+
+.file-item {
+    background: white !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+}/* 
+   THEME V5 FIX V2: HEADINGS & NO DARK BLUE
+   ========================================
+   User Request: "Headings invisible" & "Avoid dark blue/black".
+   Solution: Switch text to DEEP FOREST GREEN (Looks black but isn't) 
+   and icons to EMERALD GREEN/TEAL.
+*/
+
+/* 1. HEADINGS (H1-H6) - Make them Deep Forest Green */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.section-title,
+.project-title,
+#hero-name,
+#nav-name {
+    color: #064e3b !important;
+    /* Emerald 900 (Deep Green) */
+    text-shadow: none !important;
+}
+
+/* 2. BODY TEXT - Deep Teal Grey */
+p,
+li,
+span,
+div {
+    color: #134e4a !important;
+    /* Teal 900 */
+}
+
+/* 3. ICONS - Switch from Blue to Emerald Green */
+i,
+.fa-solid,
+.fa-brands,
+.fa-regular,
+.file-icon {
+    color: #059669 !important;
+    /* Emerald 600 */
+}
+
+/* 4. LINKS & NAV - Dark Teal */
+a,
+.nav-links a {
+    color: #115e59 !important;
+    /* Teal 800 */
+}
+
+a:hover,
+.nav-links a:hover,
+.nav-links a.active-section {
+    color: #0d9488 !important;
+    /* Teal 600 */
+}
+
+/* 5. BUTTONS - Green Gradient */
+.btn-primary {
+    background: linear-gradient(to right, #34d399, #10b981) !important;
+    color: #064e3b !important;
+    /* Dark Green Text */
+}
+
+/* 6. TAGS & CHIPS - White with Green Text */
+.tag,
+.skill-tag,
+.edu-date {
+    border-color: #34d399 !important;
+    color: #047857 !important;
+    /* Emerald 700 */
+    background: rgba(255, 255, 255, 0.9) !important;
+}/* 
+   THEME V5 FIX V3: FINAL VISIBILITY & BRAND ICONS
+   ===============================================
+   1. Fixes invisible section titles.
+   2. Restores brand colors for icons.
+   3. Fixes Work Experience look.
+*/
+
+/* 1. NUCLEAR OPTION FOR TEXT VISIBILITY */
+/* Force pure black on headings to ensure they are visible against light blue */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.section-title {
+    color: #000000 !important;
+    opacity: 1 !important;
+    /* Ensure fade-in doesn't hide it */
+    text-shadow: none !important;
+}
+
+/* 2. BODY TEXT */
+p,
+li,
+span,
+div,
+a {
+    color: #1a202c !important;
+    /* Very Dark Grey */
+}
+
+/* 3. RESTORE BRAND ICON COLORS */
+/* Undo the global green override for specific brands */
+.fa-linkedin {
+    color: #0077b5 !important;
+}
+
+.fa-google,
+.fa-google-drive {
+    color: #4285F4 !important;
+}
+
+/* Google Blue */
+.fa-microsoft {
+    color: #f25022 !important;
+}
+
+/* Microsoft Orange/Red */
+.fa-envelope {
+    color: #ea4335 !important;
+}
+
+/* Gmail Red */
+.fa-calendar {
+    color: #0284c7 !important;
+}
+
+/* Sky Blue */
+
+/* Resume Icons - Keep them distinct */
+.fa-file-pdf {
+    color: #ef4444 !important;
+}
+
+/* PDF Red */
+.fa-file-word {
+    color: #2563eb !important;
+}
+
+/* Word Blue */
+.fa-file-powerpoint {
+    color: #ea580c !important;
+}
+
+/* PPT Orange */
+.fa-file-excel {
+    color: #16a34a !important;
+}
+
+/* Excel Green */
+.fa-file-code,
+.fa-github {
+    color: #1e293b !important;
+}
+
+/* Code Black */
+.fa-lock {
+    color: #dc2626 !important;
+}
+
+/* Lock Red */
+
+/* 4. WORK EXPERIENCE & CARDS - CLEAN UP */
+/* Make them solid white so images look good and text is readable */
+.timeline-item,
+.project-card,
+.leadership-card,
+.cert-card,
+.modal-content {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* 5. Nav Links - Dark Grey default, Blue on hover */
+.nav-links a {
+    color: #334155 !important;
+}
+
+.nav-links a:hover,
+.nav-links a.active-section {
+    color: #0284c7 !important;
+    background: transparent !important;
+}
+
+/* 6. Footer Text */
+footer,
+footer p {
+    color: #475569 !important;
+}/* 
+   THEME V5 FIX V4: FINAL FINAL VISIBILITY & SQUARES
+   =================================================
+   Based on user screenshots:
+   1. "About Me" title is light grey -> Force BLACK.
+   2. Paragraphs are invisible -> Force BLACK.
+   3. Experience Squares are solid blue -> Make them White/Glass.
+   4. Credential ID is faint -> Make it Dark Grey.
+*/
+
+/* 1. FORCE TITLES BLACK (Specificity Overkill) */
+h1,
+h2,
+h3,
+h4,
+.section-title,
+#about h2,
+#education h2,
+#portfolio h2,
+#experience h2,
+#certifications h2,
+#leadership h2,
+#skills h2 {
+    color: #0f172a !important;
+    /* Slate 900 */
+    opacity: 1 !important;
+    text-shadow: none !important;
+}
+
+/* 2. FORCE BODY TEXT BLACK */
+p,
+.bio-text,
+.project-desc,
+.timeline-item p,
+li {
+    color: #334155 !important;
+    /* Slate 700 */
+}
+
+/* 3. FIX EXPERIENCE "BLUE SQUARES" */
+/* probable class: .edu-logo-wrapper or .timeline-icon */
+.edu-logo-wrapper,
+.timeline-icon {
+    background: #ffffff !important;
+    /* White background */
+    border: 1px solid #e2e8f0 !important;
+    /* Grey border */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Ensure icon inside is visible */
+.edu-logo-wrapper i,
+.timeline-icon i {
+    color: #0284c7 !important;
+    /* Sky Blue Icon */
+}
+
+/* 4. FIX INVISIBLE CREDENTIAL ID */
+.cert-id,
+.credential-id,
+span[class*="id"],
+.text-secondary {
+    color: #64748b !important;
+    /* Slate 500 (Dark Grey) */
+}
+
+/* 5. FORCE CARD BACKGROUNDS WHITE */
+.timeline-item,
+.project-card,
+.card,
+.cert-card,
+.leadership-card {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+}/* 
+   THEME V5 FIX V5: THE "GRADIENT TEXT" KILLER
+   ===========================================
+   The Root Cause: Headings had 'text-fill-color: transparent' 
+   with a white gradient. This made them invisible on light backgrounds.
+   
+   This file removes that effect and forces solid black text.
+*/
+
+.section-title,
+h1,
+h2,
+h3,
+#hero-name,
+#nav-name {
+    /* 1. Reset the "Transparent Gradient" effect */
+    -webkit-text-fill-color: initial !important;
+    text-fill-color: initial !important;
+
+    /* 2. Remove the gradient background */
+    background: none !important;
+    background-clip: border-box !important;
+    -webkit-background-clip: border-box !important;
+
+    /* 3. Force Color */
+    color: #0f172a !important;
+    /* Solid Slate 900 */
+    text-shadow: none !important;
+}
+
+/* Ensure Hero Role is also fixed if it had it */
+#hero-role {
+    -webkit-text-fill-color: initial !important;
+    color: #334155 !important;
+}/* 
+   THEME V5 FIX V6: BACK TO TOP ARROW
+   ==================================
+   Matches the button to the new Sky/Green gradient theme.
+*/
+
+.back-to-top {
+    /* 1. Gradient Background */
+    background: linear-gradient(to bottom right, #38bdf8, #4ade80) !important;
+
+    /* 2. Remove any old borders/shadows that clash */
+    border: none !important;
+    box-shadow: 0 4px 12px rgba(14, 165, 233, 0.4) !important;
+
+    /* 3. Icon Color (Dark for contrast on bright gradient) */
+    color: #0f172a !important;
+}
+
+.back-to-top:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 16px rgba(14, 165, 233, 0.6) !important;
+}

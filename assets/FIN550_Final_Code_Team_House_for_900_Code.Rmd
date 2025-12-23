@@ -1,0 +1,413 @@
+---
+title: "FIN 550 Final Project Code"
+author: "Team Name: House for $900???"
+date: "Fall 2025"
+output: 
+  html_document:
+    df_print: paged
+    toc: true
+    number_sections: true
+---
+```{r setup, include=FALSE}
+# Approximate run time: 5-10 minutes
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r}
+# =======================================================
+# Step 1: Environment Setup and Data Loading
+# =======================================================
+
+# 1. Load necessary libraries
+# Note: If packages are missing, run: install.packages(c("dplyr", "randomForest", "nnet"))
+library(dplyr)
+library(randomForest)
+library(nnet)
+library(NeuralNetTools)
+library(ggplot2)
+library(caTools)
+library(tidyr)
+library(dplyr)
+# 2. Load datasets
+# Ensure the data files are located in your current working directory (check using getwd())
+train_raw <- read.csv("historic_property_data.csv")
+test_raw  <- read.csv("predict_property_data.csv")
+
+print("✅ Data loaded successfully!")
+print(paste("Training set size:", nrow(train_raw), "rows"))
+print(paste("Test set size:", nrow(test_raw), "rows"))
+```
+
+
+```{r}
+# =======================================================
+# Step 2: Data Exploration (Summary & Missing Values)
+# =======================================================
+
+# 1. Check the distribution of Sale Price (including outliers)
+print("--- Distribution of Sale Price ---")
+summary(train_raw$sale_price)
+
+# 2. Check for missing values (NA)
+# Identify which columns have the most missing data
+print("--- Top 10 Columns with Missing Values ---")
+na_counts <- colSums(is.na(train_raw))
+print(sort(na_counts, decreasing = TRUE)[1:10])
+
+# 3. Check for Non-Arms-Length transactions
+# This helps us identify potential noise in the dataset
+print("--- Non-Arms-Length Transactions Count ---")
+table(train_raw$ind_arms_length)
+```
+
+
+
+
+`
+
+
+```{r}
+# =======================================================
+# Step 3: Define Data Cleaning Function (One-Hot Strategy)
+# =======================================================
+
+process_data <- function(df, district_stats = NULL) {
+  
+  # --- C. Feature Encoding (Critical Update) ---
+  # Strategy Change: We are KEEPING non-arms-length transactions.
+  # Therefore, we must encode TRUE/FALSE as 1/0 so models (especially NN) can use it.
+  
+  if("ind_arms_length" %in% names(df)) {
+    # Create new column: ind_arms_lengthTRUE 
+    # 1 = Arms-Length (Market Transaction), 0 = Non-Arms-Length
+    df$ind_arms_lengthTRUE <- ifelse(df$ind_arms_length == TRUE, 1, 0)
+    
+    # We will use this numeric column instead of the original logical one for consistency.
+  }
+  
+  # --- A. Handle Missing Values (Standard Imputation) ---
+  
+  # 1. Amenities: Treat NA as 0 (implies feature does not exist)
+  if("char_bsmt_fin" %in% names(df)) df$char_bsmt_fin[is.na(df$char_bsmt_fin)] <- 0
+  if("meta_class" %in% names(df)) df$meta_class[is.na(df$meta_class)] <- median(df$meta_class, na.rm=TRUE)
+  if("econ_midincome" %in% names(df)) df$econ_midincome[is.na(df$econ_midincome)] <- median(df$econ_midincome, na.rm=TRUE)
+  
+  # Demographics: Impute NA with Mean
+  demo_cols <- c("geo_white_perc", "geo_tract_pop")
+  for(col in demo_cols) {
+    if(col %in% names(df)) df[[col]][is.na(df[[col]])] <- mean(df[[col]], na.rm=TRUE)
+  }
+  
+  # Other Amenities
+  if("char_gar1_size" %in% names(df)) df$char_gar1_size[is.na(df$char_gar1_size)] <- 0
+  if("char_fbath" %in% names(df)) df$char_fbath[is.na(df$char_fbath)] <- 0
+  if("char_hbath" %in% names(df)) df$char_hbath[is.na(df$char_hbath)] <- 0
+  if("char_air" %in% names(df)) df$char_air[is.na(df$char_air)] <- 0
+  if("char_frpl" %in% names(df)) df$char_frpl[is.na(df$char_frpl)] <- 0
+  if("geo_ohare_noise" %in% names(df)) df$geo_ohare_noise[is.na(df$geo_ohare_noise)] <- 0
+  
+  # 2. Feature Engineering: Total Baths
+  df$char_baths <- df$char_fbath + df$char_hbath
+  
+  # 3. Numeric Features: Impute with Median
+  fill_cols <- c("char_bldg_sf", "char_hd_sf", "char_age", "char_cnst_qlty", "econ_midincome")
+  for(col in fill_cols) {
+    if(col %in% names(df)) {
+      df[[col]][is.na(df[[col]])] <- median(df[[col]], na.rm=TRUE)
+    }
+  }
+
+  # --- B. Target Encoding: Avg District Price ---
+  
+  if(is.null(district_stats)) {
+    # [Training Mode]
+    # Critical: Use Median because we kept the outliers ($12M home).
+    # Mean would be severely distorted; Median is robust.
+    current_stats <- df %>%
+      group_by(geo_school_elem_district) %>%
+      summarise(avg_district_price = median(sale_price, na.rm = TRUE)) 
+    
+    df <- left_join(df, current_stats, by = "geo_school_elem_district")
+    return(list(data = df, stats = current_stats)) 
+  } else {
+    # [Test Mode]
+    df <- left_join(df, district_stats, by = "geo_school_elem_district")
+    if(any(is.na(df$avg_district_price))) {
+       df$avg_district_price[is.na(df$avg_district_price)] <- median(district_stats$avg_district_price, na.rm=TRUE)
+    }
+    return(df)
+  }
+}
+
+# --- Execute Data Cleaning ---
+# 1. Clean Training Set
+train_res <- process_data(train_raw, district_stats = NULL)
+train_full <- train_res$data
+stats_table <- train_res$stats 
+
+# 2. Clean Test Set
+test_full <- process_data(test_raw, district_stats = stats_table)
+
+print("✅ Data Cleaning (One-Hot Strategy) Complete!")
+```
+
+```{r}
+# =======================================================
+# Step 4: Filter & Split (Modified: KEEP Non-Arms-Length)
+# =======================================================
+
+# Load required library for splitting
+if(!require(caTools)) install.packages("caTools")
+library(caTools)
+
+# 1. Handling Non-Arms-Length Transactions
+# Strategy Change: We do NOT filter out non-arms-length transactions here.
+# train_clean <- subset(train_full, ind_arms_length == TRUE) <--- SKIPPED
+train_clean <- train_full # We use the full dataset including 'False' flags
+
+# 2. Remove Extreme Price Outliers
+# We still filter extreme prices to prevent the model from being skewed by 
+# irrational outliers (e.g., >$3M or <$10k) which would severely impact MSE.
+train_clean <- subset(train_clean, sale_price > 10000 & sale_price < 3000000)
+
+# 3. SPLIT DATASET (80% Train, 20% Validation)
+set.seed(42) # Set seed for reproducibility
+split_index <- sample.split(train_clean$sale_price, SplitRatio = 0.8)
+
+train_80 <- subset(train_clean, split_index == TRUE)
+test_20 <- subset(train_clean, split_index == FALSE)
+
+# 4. Check Data Volume
+print("--- Data Split Summary ---")
+print(paste("Original row count:", nrow(train_raw)))
+print(paste("Cleaned row count (Outliers removed, Non-Arms kept):", nrow(train_clean)))
+print(paste("Training set (80%) rows:", nrow(train_80)))
+print(paste("Validation set (20%) rows:", nrow(test_20)))
+
+
+```
+
+```{r}
+# =======================================================
+# Helper Function: Calculate Mean Absolute Percentage Error (MAPE)
+# =======================================================
+# This function measures the prediction accuracy of a forecasting method.
+# It expresses the error as a percentage, which is easier to interpret.
+
+calc_mape <- function(actual, predicted) {
+  # Formula: Average of the absolute percentage errors
+  # |(Actual - Predicted) / Actual| * 100
+  return(mean(abs((actual - predicted) / actual)) * 100)
+}
+```
+
+```{r}
+# --- Model A: Linear Regression (Baseline) 
+
+# 1. Train on 80% data
+model_lm <- lm(log(sale_price) ~ 
+                 avg_district_price + geo_ohare_noise +
+                 char_bldg_sf + char_hd_sf + char_age + 
+                 char_baths + char_gar1_size + 
+                 char_air + char_frpl + char_cnst_qlty +
+                 econ_midincome + geo_tract_pop + geo_white_perc +
+                 char_bsmt_fin + meta_class + 
+                 ind_arms_lengthTRUE, # <--- 加回来！
+               data = train_80)
+
+# 2. Prediction and Evaluation on 20% TEST SET
+lm_test_preds <- exp(predict(model_lm, test_20))
+
+# 3. Metrics on TEST SET
+rmse_lm_test <- sqrt(mean((lm_test_preds - test_20$sale_price)^2))
+mape_lm_test <- calc_mape(test_20$sale_price, lm_test_preds) 
+
+print("--- Linear Regression (Test Set Metrics) ---")
+print(paste("📊 1. Linear Regression - RMSE:", round(rmse_lm_test, 0), "| MAPE:", round(mape_lm_test, 2), "%"))
+
+print(summary(model_lm))
+```
+
+
+
+```{r}
+# =======================================================
+# Model B: Neural Network (nnet) - Zero-Variance Fix Applied
+# =======================================================
+
+# 1. Prepare Feature List (ind_arms_lengthTRUE is REMOVED due to zero variance)
+vars_nn <- c("avg_district_price", "geo_ohare_noise", "char_bldg_sf", "char_hd_sf", 
+             "char_age", "char_baths", "char_gar1_size", "char_air", "char_frpl", 
+             "char_cnst_qlty", "econ_midincome", "geo_tract_pop", "geo_white_perc", 
+             "char_bsmt_fin", "meta_class", 
+             "ind_arms_lengthTRUE")# <--- ind_arms_lengthTRUE removed
+
+# 2. Prepare Training Data (80% set)
+train_nn_80 <- train_80[, c("sale_price", vars_nn)]
+train_nn_80$log_sale_price <- log(train_nn_80$sale_price)
+
+# 3. Calculate Scaling Parameters (Based only on train_nn_80)
+maxs <- apply(train_nn_80[, vars_nn], 2, max) 
+mins <- apply(train_nn_80[, vars_nn], 2, min)
+max_log_sale <- max(train_nn_80$log_sale_price)
+min_log_sale <- min(train_nn_80$log_sale_price)
+
+# 4. Apply Min-Max Scaling to Training Data
+scaled_train_nn_80 <- data.frame(
+  log_sale_price = (train_nn_80$log_sale_price - min_log_sale) / (max_log_sale - min_log_sale),
+  scale(train_nn_80[, vars_nn], center = mins, scale = maxs - mins) 
+)
+
+# 5. Model Training
+set.seed(123)
+model_nn <- nnet(log_sale_price ~ ., 
+                 data = scaled_train_nn_80, 
+                 size = 10,           
+                 linout = TRUE,       
+                 maxit = 1000, 
+                 trace = FALSE) 
+
+# 6. Prepare Test Data (20% set)
+test_nn_20 <- test_20[, vars_nn] # IMPORTANT: Uses the fixed vars_nn list
+scaled_test_nn_20 <- scale(test_nn_20, center = mins, scale = maxs - mins) 
+scaled_test_nn_20 <- as.data.frame(scaled_test_nn_20) 
+
+# 7. Prediction (on the held-out Test Set)
+nn_preds_scaled_test <- predict(model_nn, scaled_test_nn_20)
+
+# 8. Inverse Transformation back to Original Price Scale
+nn_preds_log_test <- nn_preds_scaled_test * (max_log_sale - min_log_sale) + min_log_sale
+nn_preds_test <- exp(nn_preds_log_test)
+
+# 9. RMSE & MAPE Evaluation (on the Test Set)
+rmse_nn_test <- sqrt(mean((nn_preds_test - test_20$sale_price)^2))
+mape_nn_test <- calc_mape(test_20$sale_price, nn_preds_test) 
+
+print(paste("📊 2. Neural Network (Test Set) - RMSE:", round(rmse_nn_test, 0), "| MAPE:", round(mape_nn_test, 2), "%"))
+
+```
+
+
+```{r}
+# --- Neural Network Feature Importance Visualization ---
+
+# 1. Calculate importance using Olden's method (suppress default plot to avoid errors)
+# This returns a dataframe instead of a plot object
+plot_data <- olden(model_nn, bar_plot = FALSE)
+
+# --- 2. Custom Visualization (Manual Plot Fix) ---
+library(ggplot2)
+
+# Data Preparation: Remove the intercept term (V1) as it's not a feature
+plot_data_clean <- subset(plot_data, row.names(plot_data) != "V1")
+plot_data_clean$variable <- row.names(plot_data_clean)
+
+# Generate Plot using ggplot2
+ggplot(plot_data_clean, aes(x = reorder(variable, importance), y = importance, fill = importance > 0)) +
+  geom_col(show.legend = FALSE) +
+  coord_flip() +  # Flip coordinates for better readability
+  labs(
+    title = "Neural Network Feature Importance",
+    subtitle = "Olden's Method (Manual Plot)",
+    x = NULL,   # Correct syntax: Use NULL to remove axis label (avoids element_blank error)
+    y = "Importance Weight"
+  ) +
+  scale_fill_manual(values = c("TRUE" = "steelblue", "FALSE" = "firebrick")) + # Blue for positive, Red for negative
+  theme_minimal()
+```
+
+
+
+
+
+
+```{r}
+# =======================================================
+# Model C: Random Forest (Champion Model)
+# =======================================================
+set.seed(123)
+model_rf <- randomForest(log(sale_price) ~ 
+                           avg_district_price + geo_ohare_noise +
+                           char_bldg_sf + char_hd_sf + char_age + 
+                           char_baths + char_gar1_size + 
+                           char_air + char_frpl + char_cnst_qlty +
+                           econ_midincome + geo_tract_pop + geo_white_perc +
+                           char_bsmt_fin + meta_class + 
+                           ind_arms_lengthTRUE, 
+                         data = train_80,
+                         ntree = 500)
+
+# 1. Prediction on 20% TEST SET
+# Predict log(sale_price) on the test data
+rf_test_preds_log <- predict(model_rf, newdata = test_20)
+
+# 2. Inverse Transform back to raw sale price
+rf_test_preds <- exp(rf_test_preds_log)
+
+# 3. Evaluation on TEST SET
+rmse_rf_test <- sqrt(mean((rf_test_preds - test_20$sale_price)^2))
+mape_rf_test <- calc_mape(test_20$sale_price, rf_test_preds) 
+
+print("--- Random Forest (Test Set Metrics) ---")
+print(paste("📊 3. Random Forest (Test Set) - RMSE:", round(rmse_rf_test, 0), "| MAPE:", round(mape_rf_test, 2), "%"))
+
+# Visualize Feature Importance
+print(model_rf) # Prints the model summary (including OOB estimate from train_80)
+varImpPlot(model_rf, main="Feature Importance (Enhanced)")
+```
+```{r}
+final_log_preds <- predict(model_rf, newdata = test_full)
+
+# Convert back to Dollar price
+final_values <- exp(final_log_preds)
+
+# --- 3. Create Submission File ---
+submission <- data.frame(
+  pid = test_full$pid,
+  assessed_value = final_values
+)
+```
+
+```{r}
+# =======================================================
+# Step 7: Conclusion & Final Check (Min/Max Verification)
+# =======================================================
+
+print("--- 📋 Final Submission Integrity Check ---")
+
+# 1. Check Statistical Distribution of Predictions
+# This verifies if the Min/Max values are reasonable (e.g., no negative prices)
+summary_stats <- summary(submission$assessed_value)
+print(summary_stats)
+
+# 2. Negative Value Check & Correction (Double Safety)
+# Explicitly check for negative values as per assignment requirements.
+num_negatives <- sum(submission$assessed_value < 0)
+
+if(num_negatives > 0) {
+  warning(paste("Found", num_negatives, "negative predictions. Capping them at the minimum training price."))
+  
+  # Cap negative predictions at the minimum sales price from the training set
+  min_train_price <- min(train_clean$sale_price)
+  submission$assessed_value[submission$assessed_value < 0] <- min_train_price
+  
+} else {
+  print("✅ Check Passed: No negative predictions found.")
+}
+
+# 3. Final Save (Overwrite if corrections were made)
+write.csv(submission, "assessed_value.csv", row.names = FALSE)
+
+# 4. Conclusion Visualization
+# Plot the distribution of the final predicted values
+hist(submission$assessed_value, 
+     breaks = 50, 
+     col = "steelblue", 
+     border = "white",
+     main = "Distribution of Final Assessed Values",
+     xlab = "Predicted Price ($)")
+
+print(paste("🎉 Final Process Complete. The file 'assessed_value.csv' contains", nrow(submission), "predictions."))
+```
+
