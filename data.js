@@ -43,9 +43,9 @@ const portfolioData = {
     // 3. Resumes (Add multiple versions)
     // isExternal: true if it's a link (e.g. Google Drive), false if it's a local file in assets/
     resumes: [
-        { title: "Software Resume", url: "assets/resume-swe.pdf", isExternal: false },
-        { title: "Product Resume", url: "assets/resume-pm.pdf", isExternal: false },
-        { title: "View on Drive", url: "https://drive.google.com", isExternal: true },
+        { title: "Resume 1", url: "assets/SharangMantri_Resume.pdf", isExternal: false },
+        { title: "Resume 2", url: "assets/SharangMantri_Resume2.pdf", isExternal: false },
+        { title: "View on Drive", url: "https://drive.google.com/drive/folders/1UbhpWr-dMYo5G5Z-zqM-2Gc7gEmQbVdA?usp=sharing", isExternal: true },
     ],
 
     // 4. Projects (The core portfolio)
