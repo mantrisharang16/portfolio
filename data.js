@@ -13,7 +13,7 @@ const portfolioData = {
     // 1. General Info (Photo, Name, Intro)
     general: {
         name: "Sharang Mantri",
-        role: "CFA L3 Candidate | Investment Management & Quantitative Finance | MS Finance (4.0 GPA)",
+        role: "Investment Management & Quantitative Finance | CFA L3 Candidate\nMS Finance UIUC-Gies (STEM - 4.0 GPA) | IIT Bombay Economics",
         aboutText: `
             I am a driven finance professional bridging the gap between traditional <b>Investment Management</b> and modern <b>Quantitative Analytics</b>. I recently graduated with a Master of Science in Finance from the <b>University of Illinois Urbana-Champaign</b> (4.0 GPA), following my undergraduate studies in Economics at the prestigious <b>IIT Bombay</b>.
             <br><br>

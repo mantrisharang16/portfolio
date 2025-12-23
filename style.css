@@ -201,9 +201,9 @@ html {
     /* Slightly smaller to fit */
     color: var(--text-secondary);
     margin-bottom: 2rem;
-    white-space: nowrap;
-    /* Keep on one line */
-    /* Removed overflow:hidden/ellipsis to prevent cutting off */
+    white-space: pre-wrap;
+    /* Allows \n to act as line break */
+    line-height: 1.6;
 }
 
 @media (max-width: 900px) {

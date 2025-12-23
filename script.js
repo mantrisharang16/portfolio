@@ -134,7 +134,7 @@ function initGeneral() {
     const navNameEl = document.getElementById('nav-text');
     if (navNameEl) navNameEl.textContent = data.name;
     document.getElementById('hero-name').textContent = data.name;
-    document.getElementById('hero-role').textContent = data.role;
+    document.getElementById('hero-role').textContent = data.role; // Using textContent with CSS pre-wrap
     document.getElementById('footer-name').textContent = data.name;
 
     // Photo
