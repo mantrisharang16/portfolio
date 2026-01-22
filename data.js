@@ -17,7 +17,7 @@ const portfolioData = {
         aboutText: `
             I am a driven finance professional bridging the gap between traditional <b>Investment Management</b> and modern <b>Quantitative Analytics</b>. I recently graduated with a Master of Science in Finance from the <b>University of Illinois Urbana-Champaign</b> (4.0 GPA), following my undergraduate studies in Economics at the prestigious <b>IIT Bombay</b>.
             <br><br>
-            My approach is results-oriented. As an Equity Research Analyst & Trader, I engineered strategies that achieved a <b>45% relative outperformance</b> vs. the benchmark in the fiscal year. I have passed <b>CFA Levels 1 & 2 on my first attempts</b> and am currently a Level 3 Candidate.
+            My approach is results-oriented. As an Equity Research Analyst & Trader, I engineered strategies that achieved a <b>450 bps relative outperformance</b> vs. the benchmark in the fiscal year. I have passed <b>CFA Levels 1 & 2 on my first attempts</b> and am currently a Level 3 Candidate.
             <br><br>
             I am actively looking to contribute to high-performance teams within <b>Fundamental Analysis</b>, <b>Quantitative Finance</b>, or <b>Corporate Strategy</b>, applying data-driven insights to actionable investment theses.
 	    <br><br>
@@ -419,7 +419,7 @@ const portfolioData = {
             description: [
                 "Analyzed 50+ public equities across Banking and Infrastructure sectors utilizing Bloomberg Terminal, Capital IQ, and Python to screen for high-potential opportunities based on fundamental growth drivers and valuation disconnects",
                 "Constructed comprehensive financial models including 10-year DCFs and Football Field (sensitivity) analysis to facilitate data-driven portfolio rebalancing, directly optimizing asset allocation strategies for high-net-worth clients",
-                "Engineered a proprietary trading strategy capitalizing on cyclical and seasonal stock trends, successfully delivering a 45% relative outperformance (450 bps Alpha) over the Nifty 50 benchmark in Fiscal Year 2024",
+                "Engineered a proprietary trading strategy capitalizing on cyclical and seasonal stock trends, successfully delivering a 450 bps relative outperformance (450 bps Alpha) over the Nifty 50 benchmark in Fiscal Year 2024",
                 "Executed rigorous ongoing portfolio monitoring and risk assessment to ensure strict adherence to investment mandates, proactively mitigating drawdown risks during periods of market volatility"
             ]
         },
