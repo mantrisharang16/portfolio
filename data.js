@@ -424,7 +424,7 @@ const portfolioData = {
             ]
         },
         {
-            role: "Research Analyst Intern",
+            role: "Research Analyst (Full-Time and Concurrent with Academics)",
             company: "Shree Financial Services",
             code: "RES-101", // Optional field if needed
             date: "May 2022 - July 2023",
