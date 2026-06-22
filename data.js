@@ -19,7 +19,7 @@ const portfolioData = {
             <br><br>
             My approach is results-oriented. As an Equity Research Analyst & Trader, I engineered strategies that achieved a <b>450 bps relative outperformance</b> vs. the benchmark in the fiscal year. I have passed <b>CFA Levels 1 & 2 on my first attempts</b> and am currently a Level 3 Candidate.
             <br><br>
-            I am actively looking to contribute to high-performance teams within <b>Fundamental Analysis</b>, <b>Quantitative Finance</b>, or <b>Corporate Strategy</b>, applying data-driven insights to actionable investment theses.
+            I am actively looking for Pre-Doc opportunities within <b>Finance</b>, <b>Economics</b>, and <b>CApplied Econometrics</b>, applying data-driven insights to real-world research.
 	    <br><br>
 	    When I’m not analyzing charts, I enjoy mountain hiking and watching football.
         `,
